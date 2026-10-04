@@ -20,8 +20,9 @@ Land, Welle, Alter, Geschlecht, Zuckermotivation und Kontaktkanal.
 | Österreich 2022 | 909 | 357 |
 | Deutschland 2022 | 927 | 88 |
 
-Online-Befragungen, quotiert nach Alter und Geschlecht, nachgeschichtet auf den
-Quotenplan. Die Welle 2022 stammt von Marketagent und ist eine eigene Studie —
+Feldzeit 2026: Österreich 25. bis 30. September, Deutschland 25. September bis
+3. Oktober. Online-Befragungen, quotiert nach Alter und Geschlecht,
+nachgeschichtet auf den Quotenplan. Die Welle 2022 stammt von Marketagent und ist eine eigene Studie —
 vergleichbar erhoben wurde dort nur die gestützte Bekanntheit.
 
 ## Drei Lesehinweise
