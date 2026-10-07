@@ -1,10 +1,5 @@
-<!doctype html>
-<html lang="de">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ZINTO Markenmonitor — Fallstudie mit synthetischen Daten</title>
-<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgMTEwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjExMCI+CiAgPHJlY3Qgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzBmN2E2YSIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmNoaXZvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIgogICAgICAgIGZvbnQtc2l6ZT0iNDYiIGZvbnQtd2VpZ2h0PSI3MDAiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZmZmZmZmIj5aSU5UTzwvdGV4dD4KICA8dGV4dCB4PSIxNjAiIHk9IjgyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJjaGl2bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIKICAgICAgICBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNTAwIiBsZXR0ZXItc3BhY2luZz0iNCIgZmlsbD0iIzlmZDhjZCI+RkFMTFNUVURJRTwvdGV4dD4KPC9zdmc+Cg==">
+<title>ZINTO Markenmonitor</title>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: klebende Filterleiste, Kennzahlenstreifen, zweispaltiges Raster,
@@ -42,9 +37,6 @@ h1{font-family:var(--display);font-weight:700;font-size:clamp(25px,4vw,34px);
   border-bottom:1px solid var(--grid);padding-block:11px;margin-bottom:22px}
 .filterzeile{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:flex-start}
 .fgruppe{min-width:0}
-.demohinweis{margin-top:12px;max-width:66ch;border-left:4px solid var(--akzent);
-  padding:9px 0 9px 14px;font-size:13.5px;line-height:1.5;color:var(--ink2)}
-.demohinweis b{color:var(--akzent)}
 .wellenhinweis{margin-bottom:18px}
 .flabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted);margin-bottom:6px}
@@ -99,7 +91,7 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--grid);font-si
 
 <div class="wrap">
 <header>
-  <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgMTEwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjExMCI+CiAgPHJlY3Qgd2lkdGg9IjMyMCIgaGVpZ2h0PSIxMTAiIHJ4PSIxNiIgZmlsbD0iIzBmN2E2YSIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmNoaXZvLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIgogICAgICAgIGZvbnQtc2l6ZT0iNDYiIGZvbnQtd2VpZ2h0PSI3MDAiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZmZmZmZmIj5aSU5UTzwvdGV4dD4KICA8dGV4dCB4PSIxNjAiIHk9IjgyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJjaGl2bywgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIKICAgICAgICBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNTAwIiBsZXR0ZXItc3BhY2luZz0iNCIgZmlsbD0iIzlmZDhjZCI+RkFMTFNUVURJRTwvdGV4dD4KPC9zdmc+Cg==" alt="ZINTO">
+  
   <div>
   <h1>ZINTO Markenmonitor</h1>
   <p class="sub">Markenstudie September 2026, Österreich und Deutschland. Filter wirken
@@ -108,9 +100,6 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--grid);font-si
   haben verschiedene Grundgesamtheiten und Quotenpläne. Beide anzuklicken zeigt sie
   nebeneinander. Alle Anteile sind auf den Quotenplan gewichtet.</p>
   <p class="sub" id="fussnote"></p>
-  <p class="demohinweis"><b>Synthetische Daten.</b> Marken, Befragte und alle
-  Zahlen dieser Fallstudie sind erfunden. Sie zeigt Methode und Darstellung
-  eines Markenmonitors, nicht die Lage eines realen Marktes.</p>
   <p class="sub warn" id="kanalhinweis" hidden></p>
   </div>
 </header>
@@ -211,7 +200,7 @@ footer{margin-top:30px;padding-top:15px;border-top:1px solid var(--grid);font-si
 </div>
 
 <footer>
-  <span>Dr. Arne Floh · Methodendemonstration · alle Daten synthetisch</span>
+  <span>Dr. Arne Floh · Markenstudie ZINTO September 2026</span>
   <span id="stand"></span>
 </footer>
 </div>
@@ -979,6 +968,3 @@ if (ohne.length) document.getElementById('fussnote').textContent =
 addEventListener('resize', () => { tipAus(); });
 zeichnen();
 </script>
-
-</head>
-</html>
