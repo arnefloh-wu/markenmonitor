@@ -1,14 +1,14 @@
-# Markenmonitore — WU Wien
+# Markenmonitore
 
-Interaktive Auswertungen aus Markenstudien des Instituts für Internationales
-Marketing Management, WU Wien.
+Interaktive Auswertungen aus Markenstudien.
 
-| Studie | Link |
+| | |
 |---|---|
-| NEOH — Österreich und Deutschland, September 2026 | [neoh/](neoh/) |
+| [**Fallstudie ZINTO**](fallstudie/) — Methodendemonstration mit synthetischen Daten | [Monitor](fallstudie/index.html) · [Deck](fallstudie/FALLSTUDIE_GESAMT.pdf) |
+| [NEOH](neoh/) — Österreich und Deutschland, September 2026 | [Monitor](neoh/index.html) |
 
 Die Seiten sind eigenständige HTML-Dateien ohne externe Abhängigkeiten außer
 der Schriftart. Sie enthalten **keine Falldaten**, sondern vorberechnete
 Aggregate; gefiltert wird im Browser.
 
-Kontakt: Dr. Arne Floh, WU Wien
+Kontakt: Dr. Arne Floh
