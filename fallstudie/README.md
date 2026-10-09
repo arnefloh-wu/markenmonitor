@@ -9,8 +9,9 @@ Markenstudie mit Vergleichswelle — nicht die Lage eines realen Marktes.
 
 ## Was die Fallstudie zeigt
 
-ZINTO ist ein fiktiver Herausforderer im Segment zuckerreduzierter Riegel:
-stark im Heimatmarkt, im Nachbarmarkt praktisch unbekannt. Die Auswertung
+ZINTO ist ein fiktiver Herausforderer in einer FMCG-Kategorie — eine Marke,
+die sich über Clean Label differenziert: stark im Heimatmarkt, im
+Nachbarmarkt praktisch unbekannt. Die Auswertung
 führt zwei Länder und zwei Erhebungswellen zusammen und muss dabei vier
 Probleme lösen, die in realen Trackings regelmäßig auftreten.
 
@@ -72,7 +73,7 @@ Der Generator liegt bei: [`daten/synthetik.py`](daten/synthetik.py) und
 [`daten/marken_demo.py`](daten/marken_demo.py). Er erzeugt die Rohdateien im
 Format der jeweiligen Erhebung; die Auswertungspipeline läuft unverändert
 darauf. Das Modell dahinter steht vollständig im Skript — Altersgefälle,
-Geschlechtsgefälle, Zuckermotivation, Formateffekt der Altwelle und
+Geschlechtsgefälle, Clean-Label-Motivation, Formateffekt der Altwelle und
 Feldqualitätsunterschiede zwischen den Ländern sind dort als Parameter
 sichtbar.
 

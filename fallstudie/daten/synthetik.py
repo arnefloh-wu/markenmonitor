@@ -14,7 +14,7 @@ Das Modell dahinter ist bewusst einfach und steht vollstaendig hier. Es
 erzeugt die Eigenschaften, an denen sich die Auswertung zeigen laesst:
 
   - ein Altersgefaelle und ein Geschlechtsgefaelle bei der Hauptmarke
-  - einen Zusammenhang mit der Zuckermotivation
+  - einen Zusammenhang mit der Clean-Label-Motivation
   - einen Funnel mit realistischen Uebergangsraten und etwas Rasterrauschen
     (Kauf ohne Bekanntheit), damit die hierarchische Bereinigung etwas zu
     tun hat
@@ -38,35 +38,35 @@ ECHT_22 = ('/home/user/NEOH/marketagent_2022/'
 
 # --- Grundbekanntheit je Marke und Land, Welle 2026 -----------------------
 # Die Hauptmarke steht hier als Basiswert; Alter, Geschlecht und
-# Zuckermotivation verschieben ihn je Befragten.
+# Clean-Label-Motivation verschieben ihn je Befragten.
 BASIS = {
     #        AT     DE
-    '1':  (0.85,  0.69),   # Balmo
+    '1':  (0.85,  0.69),   # Avelio
     '2':  (0.09,  0.08),   # Nutrika
-    '3':  (0.91,  0.81),   # Cocoway
+    '3':  (0.91,  0.81),   # Carelux
     '4':  (0.71,  0.73),   # Granova
-    '5':  (0.80,  None),   # Alpzart, nur AT
-    '6':  (0.74,  0.85),   # Hazelo
-    '7':  (0.02,  None),   # Ketolino, nur AT
-    '8':  (0.88,  0.83),   # Vollmond
-    '9':  (0.88,  0.84),   # Knusperli
-    '10': (0.89,  0.34),   # Almgold: AT-Traditionsmarke, in DE schwach
+    '5':  (0.80,  None),   # Alpenklar, nur AT
+    '6':  (0.74,  0.85),   # Veranto
+    '7':  (0.02,  None),   # Purlino, nur AT
+    '8':  (0.88,  0.83),   # Silvano
+    '9':  (0.88,  0.84),   # Frischal
+    '10': (0.89,  0.34),   # Almkraft: AT-Traditionsmarke, in DE schwach
     '11': (0.94,  0.88),   # Orbix
     '12': (0.94,  0.86),   # Lunara
     '13': (0.47,  0.070),  # ZINTO
     '14': (0.10,  0.12),   # Nordfit
-    '15': (0.05,  0.06),   # Cacaolu
+    '15': (0.05,  0.06),   # Clarivo
     '16': (0.72,  0.73),   # Snapup
-    '17': (0.91,  0.87),   # Crunchor
+    '17': (0.91,  0.87),   # Levito
     '18': (0.13,  0.11),   # Protera
     '19': (0.28,  0.23),   # Nutriq
     '20': (0.12,  None),   # Sportlab, nur AT
-    '90': (None,  0.10),   # Barvita, nur DE
-    '91': (None,  0.03),   # Sweetless, nur DE
-    '92': (None,  0.86),   # Zweibiss, nur DE
+    '90': (None,  0.10),   # Norvita, nur DE
+    '91': (None,  0.03),   # Purelia, nur DE
+    '92': (None,  0.86),   # Zweiklang, nur DE
 }
-# Marken des Gesundheitssegments: dort wirkt die Zuckermotivation mit
-GESUND = {'2', '7', '13', '14', '15', '18', '19', '20', '90', '91'}
+# Marken des Clean-Label-Segments: dort wirkt die Motivation mit
+CLEAN = {'2', '7', '13', '14', '15', '18', '19', '20', '90', '91'}
 
 # Welle 2022: wahres Niveau der Hauptmarke VOR dem Formateffekt.
 # Der Zuwachs bis 2026 ist echt, der gemessene Unterschied faellt wegen des
@@ -140,10 +140,58 @@ def zieh(p):
     return ZUFALL.random() < p
 
 
+# Kopfzeile 2 des Vorlagenexports beschreibt die Fragen - und nennt dabei
+# die Marken und die Warengruppe der Vorlage. Beides gehoert nicht in eine
+# Fallstudie, die eine Methode fuer Marken des taeglichen Bedarfs zeigt.
+# Deshalb werden diese Fragetexte neu geschrieben statt ersetzt: Die
+# Markennamen stehen als Suffix hinter " - " und folgen dem Exportcode der
+# Spalte, der Rest steht hier. Alle anderen Spalten (Demografie, Kanaele,
+# Slider, Barrieren) nennen die Kategorie nicht und bleiben wie sie sind.
+FRAGETEXTE = {
+    'haeufigkeit': 'Wie oft kaufen Sie Produkte dieser Kategorie?',
+    'spontan': 'Welche Marken dieser Kategorie fallen Ihnen spontan ein?',
+    'clean': 'Wie wichtig ist es Ihnen, dass ein Produkt ohne Zusatzstoffe '
+             'auskommt?',
+    'bed\u00fcrfnis': 'Inwieweit erf\u00fcllt %s Ihre Bed\u00fcrfnisse in dieser '
+                  'Kategorie? (0 = Gar nicht, 10 = Vollst\u00e4ndig)' % HELD_NAME,
+}
+RASTER_FRAGEN = {
+    'bekanntheit': 'Von welchen der folgenden Marken haben Sie schon einmal '
+                   'geh\u00f6rt? Mehrfachnennungen sind m\u00f6glich.',
+    'betracht': 'Welche dieser Marken w\u00fcrden Sie beim n\u00e4chsten Kauf in '
+                'dieser Kategorie in Betracht ziehen? Mehrfachnennungen sind '
+                'm\u00f6glich.',
+    'kauf_3monate': 'Welche dieser Marken haben Sie in den letzten 3 Monaten '
+                    'gekauft? Mehrfachnennungen sind m\u00f6glich.',
+}
+
+
 def kopfzeilen(pfad):
-    """Die drei Kopfzeilen eines Qualtrics-Exports uebernehmen."""
+    """Die drei Kopfzeilen eines Qualtrics-Exports uebernehmen.
+
+    Uebernommen wird die Struktur, nicht der Wortlaut: Der Bezeichner der
+    Segmentvariablen wandert mit (sie misst in der Fallstudie die Wichtigkeit
+    von Clean Label und heisst deshalb clean), die Fragetexte werden
+    kategorieneutral gefasst und die Markennamen aus dem Exportcode der
+    Spalte neu gesetzt. Die Umbenennung muss hier passieren, weil die
+    Aufbereitung die Spalten aus dieser Zeile liest.
+    """
     r = csv.reader(io.open(pfad, encoding='utf-8-sig'))
-    return [next(r), next(r), next(r)]
+    rohe = [next(r) for _ in range(3)]
+    def um(c):
+        return re.sub(r'(?<![\w])zucker(?![\w])', 'clean', c)
+
+    spalten = [um(c) for c in rohe[0]]
+    beschreibung = []
+    for name, text in zip(spalten, rohe[1]):
+        teil = name.rsplit('_', 1)
+        if len(teil) == 2 and teil[0] in RASTER_FRAGEN:
+            text = '%s - %s' % (RASTER_FRAGEN[teil[0]],
+                                MARKEN[teil[1]][0] if teil[1] in MARKEN
+                                else 'KEINE Marke')
+        text = FRAGETEXTE.get(name, text)
+        beschreibung.append(text.replace('NEOH', HELD_NAME))
+    return [spalten, beschreibung, [um(c) for c in rohe[2]]]
 
 
 # --------------------------------------------------------------- Befragte
@@ -155,11 +203,11 @@ def person(land, welle):
     # Abweichungen wuerden die Gewichte aufblaehen und die Zellen leeren.
     a = ZUFALL.choices(ALTER, weights=[0.19, 0.20, 0.20, 0.21, 0.20])[0]
     g = ZUFALL.choices(['1', '2'], weights=[0.51, 0.49])[0]
-    zucker = ZUFALL.choices(['1', '2', '3', '4', '5'],
+    clean = ZUFALL.choices(['1', '2', '3', '4', '5'],
                             weights=[0.08, 0.12, 0.22, 0.33, 0.25])[0]
     haeufig = ZUFALL.choices([str(i) for i in range(1, 8)],
                              weights=[0.03, 0.14, 0.17, 0.26, 0.17, 0.18, 0.05])[0]
-    p = {'alter': a, 'geschlecht': g, 'zucker': zucker, 'haeufigkeit': haeufig,
+    p = {'alter': a, 'geschlecht': g, 'clean': clean, 'haeufigkeit': haeufig,
          'einkommen': ZUFALL.choices([str(i) for i in range(1, 8)],
                                      weights=[.04, .15, .21, .18, .14, .18, .10])[0],
          'bildung': ZUFALL.choices([str(i) for i in range(1, 8)],
@@ -171,10 +219,10 @@ def person(land, welle):
         # Der zweite Markt liefert eine unbrauchbare Regionalangabe - ein
         # Datenfehler, den die Auswertung erkennen und ausweisen soll.
         p['bundesland'] = ZUFALL.choice([str(i) for i in range(1, 10)])
-    # Affinitaet zur Hauptmarke: jung, weiblich, zuckerbewusst
+    # Affinitaet zur Hauptmarke: jung, weiblich, clean-label-affin
     p['aff'] = (0.95 - 0.42 * ALTER.index(a)
                 + (0.46 if g == '2' else 0.0)
-                + 0.30 * (int(zucker) - 3))
+                + 0.30 * (int(clean) - 3))
     return p
 
 
@@ -188,8 +236,8 @@ def bekannt(code, land, p, welle):
         x = logit(basis) + KALIB['bek_%s_%s' % (land, welle)] + p['aff']
     else:
         x = logit(basis)
-        if code in GESUND:                      # jung und zuckerbewusst
-            x += 0.26 * (2 - ALTER.index(p['alter'])) + 0.18 * (int(p['zucker']) - 3)
+        if code in CLEAN:                      # jung und clean-label-affin
+            x += 0.26 * (2 - ALTER.index(p['alter'])) + 0.18 * (int(p['clean']) - 3)
         else:                                   # Klassiker: altersneutral
             x += 0.05 * (2 - ALTER.index(p['alter']))
     if welle == '2022':
@@ -227,11 +275,11 @@ def beschreibung(kennt, erwaegt):
             'kenne ich zu wenig', 'noch nie probiert', 'sagt mir wenig',
             'zu teuer', 'habe ich noch nicht gekauft', 'keine Ahnung'])
     return ZUFALL.choice([
-        'wenig Zucker, schmeckt trotzdem', 'guter Riegel ohne Zuckerzusatz',
-        'innovativ und knusprig', 'etwas teuer, aber gut',
-        'gesunde Alternative', 'lecker und nicht so süß',
-        'zuckerfrei, gute Idee', 'knusprig, moderne Marke',
-        'guter Geschmack für wenig Zucker', 'teuer, aber die Qualität stimmt'])
+        'wenig Zusatzstoffe, schmeckt gut', 'klare Zutatenliste',
+        'innovativ und praktisch', 'etwas teuer, aber gut',
+        'gesunde Alternative', 'angenehme Konsistenz',
+        'ohne Zusatzstoffe, gute Idee', 'moderne Marke',
+        'gute Qualität für den Preis', 'teuer, aber die Qualität stimmt'])
 
 
 def h1_barrieren(erwaegt, gekauft):
@@ -341,7 +389,7 @@ def welle_2026(land, n_brutto, kopf, start_tag, tage, attention_quote,
             'haeufigkeit': p['haeufigkeit'], 'alter': '1' if unter18 else p['alter'],
             'geschlecht': p['geschlecht'], 'bundesland': p['bundesland'],
             'einkommen': p['einkommen'], 'bildung': p['bildung'],
-            'attention_1': att, 'zucker': p['zucker'],
+            'attention_1': att, 'clean': p['clean'],
             'spontan': spontantext(land, p, kennt_held),
             'land': land, 'PID': 'P%06d' % ZUFALL.randint(1, 999999),
         })
@@ -400,7 +448,7 @@ def welle_2022(kopf22):
                 if sample == '2':
                     # Jugendaufstockung: ausschliesslich 14 bis 29
                     p['alter'] = '2'
-                    p['aff'] = 0.95 + 0.30 * (int(p['zucker']) - 3) \
+                    p['aff'] = 0.95 + 0.30 * (int(p['clean']) - 3) \
                         + (0.46 if p['geschlecht'] == '2' else 0.0)
                 q3 = ZUFALL.choice(ALT22[p['alter']])
                 if sample == '2':
@@ -413,8 +461,8 @@ def welle_2022(kopf22):
                 if land == 'AT':
                     z['Q4'] = p['bundesland']
                 z['Q5'] = ZUFALL.choice(['1', '2', '3', '4'])
-                # Q12A3: Zustimmung zu zuckerarmer Ernaehrung, umgekehrte Skala
-                z['Q12A3'] = str(6 - int(p['zucker']))
+                # Q12A3: Zustimmung zu "achte auf Zusatzstoffe", umgekehrte Skala
+                z['Q12A3'] = str(6 - int(p['clean']))
                 z['Q13A4'] = p['haeufigkeit']
                 z['Q17'] = str(ZUFALL.randint(1, 8))
                 for q, code in q20.items():
